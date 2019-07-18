@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="GestorProyectosPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Actividades</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Roles</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Usuarios</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Tareas</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Asignadas</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Proyectos</class>
+    <class>co.edu.utp.prog4.isc.GestorProyectos.Modelo.Tareasdeproyecto</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gestor de proyectos"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+    </properties>
+  </persistence-unit>
+</persistence>
