@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Asignadas.findAll", query = "SELECT a FROM Asignadas a")
-    , @NamedQuery(name = "Asignadas.findById", query = "SELECT a FROM Asignadas a WHERE a.id = :id")})
+    , @NamedQuery(name = "Asignadas.findById", query = "SELECT a FROM Asignadas a WHERE a.id = :id")
+    , @NamedQuery(name = "Asignadas.findByTerminado", query = "SELECT a FROM Asignadas a WHERE a.terminado = :terminado")})
 public class Asignadas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +38,8 @@ public class Asignadas implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "terminado")
+    private Boolean terminado;
     @JoinColumn(name = "fk_Usu_", referencedColumnName = "usuario")
     @ManyToOne
     private Usuarios fkUsu;
@@ -60,6 +63,14 @@ public class Asignadas implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(Boolean terminado) {
+        this.terminado = terminado;
     }
 
     public Usuarios getFkUsu() {
@@ -109,10 +120,6 @@ public class Asignadas implements Serializable {
     @Override
     public String toString() {
         return "co.edu.utp.prog4.isc.GestorProyectos.Modelo.Asignadas[ id=" + id + " ]";
-    }
-
-    public void setUsuarios(Usuarios encontrado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
