@@ -11,6 +11,7 @@ import co.edu.utp.prog4.isc.GestorProyectos.Controladores.ProyectosJpaController
 import co.edu.utp.prog4.isc.GestorProyectos.Controladores.TareasJpaController;
 import co.edu.utp.prog4.isc.GestorProyectos.Controladores.TareasdeproyectoJpaController;
 import co.edu.utp.prog4.isc.GestorProyectos.Controladores.UsuariosJpaController;
+import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Actividades;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Asignadas;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Proyectos;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Roles;
@@ -37,6 +38,11 @@ public class GestorProyectos extends javax.swing.JFrame {
     private AsignadasJpaController CAsignadas;
     private ProyectosJpaController CProyectos;
     private TareasdeproyectoJpaController CTareasDeProyecto;
+    private long tiempoInicial;
+    private long tiempoFinal;
+    private long diferencia;
+    private Tareas tarea;
+    private Usuarios usuario;
    
     public GestorProyectos() {
         initComponents();
@@ -46,6 +52,8 @@ public class GestorProyectos extends javax.swing.JFrame {
         CAsignadas = new AsignadasJpaController();
         CProyectos = new ProyectosJpaController();
         CTareasDeProyecto = new TareasdeproyectoJpaController();
+        tarea = null;
+        usuario = null;
         cargarComboBox();
         this.setLocationRelativeTo(null);
         this.setSize(500, 100);
@@ -60,6 +68,8 @@ public class GestorProyectos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         PanelLogin = new javax.swing.JPanel();
         FormularioIngreso = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -120,7 +130,35 @@ public class GestorProyectos extends javax.swing.JFrame {
         jButton15 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jButton14 = new javax.swing.JButton();
+        RealizarTarea = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jButton26 = new javax.swing.JButton();
+        DescripcionPorUsuarioTarea = new javax.swing.JTextField();
+        jPanel21 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        RBFinalizada = new javax.swing.JRadioButton();
+        RBPendiente = new javax.swing.JRadioButton();
+        InterfazUsuario = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jButton24 = new javax.swing.JButton();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        BarraTareas3 = new javax.swing.JComboBox<>();
+        jButton25 = new javax.swing.JButton();
         Consultas = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jButton17 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jButton23 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -212,6 +250,11 @@ public class GestorProyectos extends javax.swing.JFrame {
         Opciones2.add(jButton4);
 
         jButton5.setText("Consultar");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton5MouseReleased(evt);
+            }
+        });
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -440,16 +483,168 @@ public class GestorProyectos extends javax.swing.JFrame {
 
         getContentPane().add(CrearTarea, "card7");
 
-        javax.swing.GroupLayout ConsultasLayout = new javax.swing.GroupLayout(Consultas);
-        Consultas.setLayout(ConsultasLayout);
-        ConsultasLayout.setHorizontalGroup(
-            ConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-        ConsultasLayout.setVerticalGroup(
-            ConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        RealizarTarea.setLayout(new java.awt.BorderLayout());
+
+        jPanel20.setLayout(new java.awt.BorderLayout());
+
+        jButton26.setText("Terminar");
+        jButton26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton26MouseReleased(evt);
+            }
+        });
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
+        jPanel20.add(jButton26, java.awt.BorderLayout.LINE_END);
+        jPanel20.add(DescripcionPorUsuarioTarea, java.awt.BorderLayout.CENTER);
+
+        RealizarTarea.add(jPanel20, java.awt.BorderLayout.PAGE_END);
+
+        jPanel21.setLayout(new java.awt.BorderLayout());
+        jPanel21.add(jPanel22, java.awt.BorderLayout.PAGE_END);
+
+        RBFinalizada.setText("Finalizada");
+        RBFinalizada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                RBFinalizadaMouseReleased(evt);
+            }
+        });
+        jPanel21.add(RBFinalizada, java.awt.BorderLayout.CENTER);
+
+        RBPendiente.setText("Pendiente");
+        RBPendiente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                RBPendienteMouseReleased(evt);
+            }
+        });
+        jPanel21.add(RBPendiente, java.awt.BorderLayout.LINE_END);
+
+        RealizarTarea.add(jPanel21, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(RealizarTarea, "card10");
+
+        InterfazUsuario.setLayout(new java.awt.BorderLayout());
+
+        jPanel17.setLayout(new java.awt.BorderLayout());
+
+        jButton24.setText("Salir");
+        jButton24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton24MouseReleased(evt);
+            }
+        });
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
+        jPanel17.add(jButton24, java.awt.BorderLayout.LINE_END);
+
+        InterfazUsuario.add(jPanel17, java.awt.BorderLayout.PAGE_END);
+
+        jPanel18.setLayout(new java.awt.BorderLayout());
+
+        jLabel13.setText("Seleccione una tarea ");
+        jPanel19.add(jLabel13);
+
+        jPanel19.add(BarraTareas3);
+
+        jButton25.setText("Confirmar");
+        jButton25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton25MouseReleased(evt);
+            }
+        });
+        jPanel19.add(jButton25);
+
+        jPanel18.add(jPanel19, java.awt.BorderLayout.PAGE_END);
+
+        InterfazUsuario.add(jPanel18, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(InterfazUsuario, "card9");
+
+        Consultas.setLayout(new java.awt.BorderLayout(2, 0));
+
+        jPanel13.setLayout(new java.awt.GridLayout(7, 0));
+
+        jButton17.setText("Total de tiempo invertido");
+        jButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton17MouseReleased(evt);
+            }
+        });
+        jPanel13.add(jButton17);
+
+        jButton20.setText("Total de suspenciones");
+        jButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton20MouseReleased(evt);
+            }
+        });
+        jPanel13.add(jButton20);
+
+        jButton21.setText("Total por suspension");
+        jPanel13.add(jButton21);
+
+        jButton16.setText("Duracion de cada tarea");
+        jPanel13.add(jButton16);
+
+        jButton18.setText("Inversion de usuario en proyecto");
+        jPanel13.add(jButton18);
+
+        jButton19.setText("Inversion de usuario en tarea");
+        jPanel13.add(jButton19);
+
+        jButton22.setText("Resumen suspensiones ");
+        jPanel13.add(jButton22);
+
+        Consultas.add(jPanel13, java.awt.BorderLayout.LINE_START);
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        Consultas.add(jPanel14, java.awt.BorderLayout.LINE_END);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        Consultas.add(jPanel15, java.awt.BorderLayout.PAGE_START);
+
+        jPanel16.setLayout(new java.awt.BorderLayout());
+
+        jButton23.setText("Volver");
+        jButton23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton23MouseReleased(evt);
+            }
+        });
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jButton23, java.awt.BorderLayout.LINE_END);
+
+        Consultas.add(jPanel16, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(Consultas, "card8");
 
@@ -477,6 +672,19 @@ public class GestorProyectos extends javax.swing.JFrame {
             }
             if(rol.getIdRol()==2){
                 JOptionPane.showMessageDialog(null, "Ingreso de ususario");
+                List<Usuarios> usuarios = CUsuarios.findUsuariosEntities();
+                for(Usuarios i : usuarios){
+                    if(i.getUsuario().equals(usuario)){
+                       if(i.getPassword().equals(CampoPassword.getText())){
+                           usuario = i;
+                       } 
+                    }
+                }
+                CampoUsuario.setText("");
+                CampoPassword.setText("");
+                PanelLogin.setVisible(false);
+                this.setSize(200, 150);
+                InterfazUsuario.setVisible(true);
             }
         }
     }//GEN-LAST:event_jButton1MouseReleased
@@ -621,6 +829,112 @@ public class GestorProyectos extends javax.swing.JFrame {
         InterfazAdministrador.setVisible(false);
     }//GEN-LAST:event_jButton6MouseReleased
 
+    private void jButton5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseReleased
+        InterfazAdministrador.setVisible(false);
+        Consultas.setVisible(true);
+        this.setSize(400,400);
+        this.setTitle("Consultas");
+    }//GEN-LAST:event_jButton5MouseReleased
+
+    private void jButton17MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseReleased
+        long tiempoTotal = 0;
+        List<Actividades> actividades = CActividades.findActividadesEntities();
+        for(Actividades i : actividades){
+            tiempoTotal += i.getTiempo();
+        }
+        String mensaje;
+        mensaje = "El tiempo invertido en el proyecto fue de : " + Long.toString(tiempoTotal) + " segundos";
+        JOptionPane.showMessageDialog(null,mensaje);
+    }//GEN-LAST:event_jButton17MouseReleased
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton23MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseReleased
+        Consultas.setVisible(false);
+        InterfazAdministrador.setVisible(true);
+        this.setTitle("Interfaz Administrador");
+        this.setSize(600,150);
+    }//GEN-LAST:event_jButton23MouseReleased
+
+    private void jButton20MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton20MouseReleased
+        int suspensiones = 0;
+        List<Actividades> actividades = CActividades.findActividadesEntities();
+        for(Actividades i : actividades){
+            if(i.getFkidTarea().getIdTarea()==1){
+                suspensiones++;
+            }
+        }
+        String mensaje = "El total de suspensiones fueron : " + Integer.toString(suspensiones);
+        JOptionPane.showMessageDialog(null, mensaje);
+    }//GEN-LAST:event_jButton20MouseReleased
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton24MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseReleased
+        InterfazUsuario.setVisible(false);
+        PanelLogin.setVisible(true);
+        this.setSize(500,100);
+    }//GEN-LAST:event_jButton24MouseReleased
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton26ActionPerformed
+
+    private void jButton25MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton25MouseReleased
+        tarea = (Tareas)BarraTareas3.getSelectedItem();
+        InterfazUsuario.setVisible(false);
+        RealizarTarea.setVisible(true);
+        tiempoInicial = System.currentTimeMillis();
+    }//GEN-LAST:event_jButton25MouseReleased
+
+    private void RBFinalizadaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RBFinalizadaMouseReleased
+        RBPendiente.setSelected(false);
+    }//GEN-LAST:event_RBFinalizadaMouseReleased
+
+    private void RBPendienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RBPendienteMouseReleased
+        RBFinalizada.setSelected(false);
+    }//GEN-LAST:event_RBPendienteMouseReleased
+
+    private void jButton26MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton26MouseReleased
+        Actividades actividad = new Actividades();
+        tiempoFinal = System.currentTimeMillis();
+        diferencia = tiempoFinal - tiempoInicial;
+        String descripcion = DescripcionPorUsuarioTarea.getText();
+        Proyectos proyecto = null;
+        List<Tareasdeproyecto> tareasDeProyecto = CTareasDeProyecto.findTareasdeproyectoEntities();
+        for(Tareasdeproyecto i : tareasDeProyecto){
+            if(i.getFkidTarea2().equals(tarea)){
+                proyecto = i.getFkidPro();
+            }
+        }
+        actividad.setDescripcion(descripcion);
+        actividad.setFkUsu(usuario);
+        actividad.setFkidPro2(proyecto);
+        actividad.setFkidTarea(tarea);
+        actividad.setTiempo((int)tiempoFinal);
+        CActividades.create(actividad);
+        if(RBFinalizada.isSelected()){
+            List<Asignadas> asignadas = CAsignadas.findAsignadasEntities();
+            for(Asignadas i : asignadas){
+                if(i.getFkUsu().equals(usuario)&&i.getFkidPro().equals(proyecto)&&i.getFkidTarea().equals(tarea)){
+                    Asignadas edit = i;
+                    edit.setTerminado(true);
+                    try {
+                        CAsignadas.edit(edit);
+                    } catch (Exception ex) {
+                        Logger.getLogger(GestorProyectos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        RealizarTarea.setVisible(false);
+        InterfazUsuario.setVisible(true);
+    }//GEN-LAST:event_jButton26MouseReleased
+
     private Roles login(String usuario, String password){
         List<Usuarios> usuarios = CUsuarios.findUsuariosEntities();
         for(Usuarios i : usuarios){
@@ -637,6 +951,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private void cargarComboBox(){
         List<Usuarios> usuarios = CUsuarios.findUsuariosEntities();
         List<Tareas> tareas = CTareas.findTareasEntities();
+        List<Proyectos> proyectos = CProyectos.findProyectosEntities();
         for(Usuarios i : usuarios){
             if(i.getFkRol().getIdRol()!=1){
                 barraUsuarios.addItem(i.getUsuario());
@@ -644,6 +959,11 @@ public class GestorProyectos extends javax.swing.JFrame {
         }
         for(Tareas i : tareas){
             barraTareas.addItem(i.getDescripcion());
+            BarraTareas2.addItem(i.getDescripcion());
+            BarraTareas3.addItem(i.getDescripcion());
+        }
+        for(Proyectos i : proyectos){
+            BarraProyectos.addItem(i.getNombreProyecto());
         }
     }
     
@@ -687,22 +1007,30 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel AsignarTareaAProyecto;
     private javax.swing.JComboBox<String> BarraProyectos;
     private javax.swing.JComboBox<String> BarraTareas2;
+    private javax.swing.JComboBox<String> BarraTareas3;
     private javax.swing.JTextField CampoPassword;
     private javax.swing.JTextField CampoUsuario;
     private javax.swing.JPanel Consultas;
     private javax.swing.JPanel CrearProyecto;
     private javax.swing.JPanel CrearTarea;
+    private javax.swing.JTextField DescripcionPorUsuarioTarea;
     private javax.swing.JPanel FormularioIngreso;
     private javax.swing.JPanel InterfazAdministrador;
+    private javax.swing.JPanel InterfazUsuario;
     private javax.swing.JPanel Opciones;
     private javax.swing.JPanel Opciones2;
     private javax.swing.JPanel PanelCreacion;
     private javax.swing.JPanel PanelLogin;
     private javax.swing.JPanel PanelOpciones;
     private javax.swing.JPanel PanelRegreso;
+    private javax.swing.JRadioButton RBFinalizada;
+    private javax.swing.JRadioButton RBPendiente;
+    private javax.swing.JPanel RealizarTarea;
     private javax.swing.JPanel Salir;
     private javax.swing.JComboBox<String> barraTareas;
     private javax.swing.JComboBox<String> barraUsuarios;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -710,7 +1038,18 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -722,6 +1061,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -734,7 +1074,17 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

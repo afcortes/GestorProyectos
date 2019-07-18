@@ -6,6 +6,7 @@
 package co.edu.utp.prog4.isc.GestorProyectos.Modelo;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -36,15 +37,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Actividades.findByDescripcion", query = "SELECT a FROM Actividades a WHERE a.descripcion = :descripcion")})
 public class Actividades implements Serializable {
 
+    @Column(name = "tiempo")
+    private Integer tiempo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "tiempo")
-    @Temporal(TemporalType.TIME)
-    private Date tiempo;
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "fk_Usu", referencedColumnName = "usuario")
@@ -72,13 +73,6 @@ public class Actividades implements Serializable {
         this.id = id;
     }
 
-    public Date getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(Date tiempo) {
-        this.tiempo = tiempo;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -135,6 +129,14 @@ public class Actividades implements Serializable {
     @Override
     public String toString() {
         return "co.edu.utp.prog4.isc.GestorProyectos.Modelo.Actividades[ id=" + id + " ]";
+    }
+
+    public Integer getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(Integer tiempo) {
+        this.tiempo = tiempo;
     }
     
 }
