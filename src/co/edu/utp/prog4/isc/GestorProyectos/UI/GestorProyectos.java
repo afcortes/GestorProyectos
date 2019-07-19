@@ -62,7 +62,6 @@ public class GestorProyectos extends javax.swing.JFrame {
         suspensiones = new ArrayList<>();
         tarea = null;
         usuario = null;
-        contraseña = "";
         cargarComboBox();
         this.setLocationRelativeTo(null);
         this.setSize(500, 100);
@@ -212,7 +211,6 @@ public class GestorProyectos extends javax.swing.JFrame {
         jLabel2.setText("Password : ");
         FormularioIngreso.add(jLabel2);
 
-        CampoPassword.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         CampoPassword.setPreferredSize(new java.awt.Dimension(100, 25));
         CampoPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -865,7 +863,7 @@ public class GestorProyectos extends javax.swing.JFrame {
 
     private void jButton1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseReleased
         Roles rol = null;
-        rol = login(CampoUsuario.getText(),contraseña);
+        rol = login(CampoUsuario.getText(),CampoPassword.getText());
         if(rol == null){
             JOptionPane.showMessageDialog(null, "Usuario o Contraseña invalidos");
         }
