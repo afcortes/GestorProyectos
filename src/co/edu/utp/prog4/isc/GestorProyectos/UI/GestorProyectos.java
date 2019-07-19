@@ -18,10 +18,12 @@ import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Roles;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Tareas;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Tareasdeproyecto;
 import co.edu.utp.prog4.isc.GestorProyectos.Modelo.Usuarios;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,6 +43,9 @@ public class GestorProyectos extends javax.swing.JFrame {
     private long tiempoInicial;
     private long tiempoFinal;
     private long diferencia;
+    private long inicioSuspension;
+    private long finSuspension;
+    private List<Integer> suspensiones;
     private Tareas tarea;
     private Usuarios usuario;
    
@@ -52,6 +57,7 @@ public class GestorProyectos extends javax.swing.JFrame {
         CAsignadas = new AsignadasJpaController();
         CProyectos = new ProyectosJpaController();
         CTareasDeProyecto = new TareasdeproyectoJpaController();
+        suspensiones = new ArrayList<>();
         tarea = null;
         usuario = null;
         cargarComboBox();
@@ -84,7 +90,6 @@ public class GestorProyectos extends javax.swing.JFrame {
         Opciones = new javax.swing.JPanel();
         Opciones2 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -126,7 +131,9 @@ public class GestorProyectos extends javax.swing.JFrame {
         CrearTarea = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TFCreaTarea = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        BarraProyectos2 = new javax.swing.JComboBox<>();
         jButton15 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jButton14 = new javax.swing.JButton();
@@ -138,6 +145,7 @@ public class GestorProyectos extends javax.swing.JFrame {
         jPanel22 = new javax.swing.JPanel();
         RBFinalizada = new javax.swing.JRadioButton();
         RBPendiente = new javax.swing.JRadioButton();
+        jButton27 = new javax.swing.JButton();
         InterfazUsuario = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jButton24 = new javax.swing.JButton();
@@ -155,10 +163,14 @@ public class GestorProyectos extends javax.swing.JFrame {
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
-        jPanel14 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jButton23 = new javax.swing.JButton();
+        InfoConsultas = new javax.swing.JPanel();
+        PanelBlanco = new javax.swing.JPanel();
+        TotalPorSuspension = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaTotalSuspension = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -214,14 +226,6 @@ public class GestorProyectos extends javax.swing.JFrame {
             }
         });
         Opciones2.add(jButton8);
-
-        jButton10.setText("Asignar tarea a Proyecto");
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jButton10MouseReleased(evt);
-            }
-        });
-        Opciones2.add(jButton10);
 
         jButton6.setText("Crear tarea");
         jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -319,6 +323,11 @@ public class GestorProyectos extends javax.swing.JFrame {
         jPanel2.add(jLabel7);
 
         barraTareas.setMaximumRowCount(100);
+        barraTareas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barraTareasActionPerformed(evt);
+            }
+        });
         jPanel2.add(barraTareas);
 
         PanelCreacion.add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -456,15 +465,25 @@ public class GestorProyectos extends javax.swing.JFrame {
         jLabel12.setText("Nombre de tarea");
         jPanel7.add(jLabel12);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(100, 25));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        TFCreaTarea.setPreferredSize(new java.awt.Dimension(100, 25));
+        TFCreaTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                TFCreaTareaActionPerformed(evt);
             }
         });
-        jPanel7.add(jTextField1);
+        jPanel7.add(TFCreaTarea);
+
+        jLabel14.setText("Proyecto");
+        jPanel7.add(jLabel14);
+
+        jPanel7.add(BarraProyectos2);
 
         jButton15.setText("Crear");
+        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton15MouseReleased(evt);
+            }
+        });
         jPanel7.add(jButton15);
 
         CrearTarea.add(jPanel7, java.awt.BorderLayout.PAGE_START);
@@ -521,6 +540,9 @@ public class GestorProyectos extends javax.swing.JFrame {
             }
         });
         jPanel21.add(RBPendiente, java.awt.BorderLayout.LINE_END);
+
+        jButton27.setText("Suspender");
+        jPanel21.add(jButton27, java.awt.BorderLayout.PAGE_START);
 
         RealizarTarea.add(jPanel21, java.awt.BorderLayout.CENTER);
 
@@ -587,6 +609,11 @@ public class GestorProyectos extends javax.swing.JFrame {
         jPanel13.add(jButton20);
 
         jButton21.setText("Total por suspension");
+        jButton21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton21MouseReleased(evt);
+            }
+        });
         jPanel13.add(jButton21);
 
         jButton16.setText("Duracion de cada tarea");
@@ -603,24 +630,11 @@ public class GestorProyectos extends javax.swing.JFrame {
 
         Consultas.add(jPanel13, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
-        );
-
-        Consultas.add(jPanel14, java.awt.BorderLayout.LINE_END);
-
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 645, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -645,6 +659,50 @@ public class GestorProyectos extends javax.swing.JFrame {
         jPanel16.add(jButton23, java.awt.BorderLayout.LINE_END);
 
         Consultas.add(jPanel16, java.awt.BorderLayout.PAGE_END);
+
+        InfoConsultas.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout PanelBlancoLayout = new javax.swing.GroupLayout(PanelBlanco);
+        PanelBlanco.setLayout(PanelBlancoLayout);
+        PanelBlancoLayout.setHorizontalGroup(
+            PanelBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+        PanelBlancoLayout.setVerticalGroup(
+            PanelBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 427, Short.MAX_VALUE)
+        );
+
+        InfoConsultas.add(PanelBlanco, "card3");
+
+        TotalPorSuspension.setLayout(new java.awt.BorderLayout());
+
+        TablaTotalSuspension.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Usuario", "Proyecto", "Tiempo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TablaTotalSuspension);
+
+        TotalPorSuspension.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        InfoConsultas.add(TotalPorSuspension, "card2");
+
+        Consultas.add(InfoConsultas, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(Consultas, "card8");
 
@@ -672,18 +730,11 @@ public class GestorProyectos extends javax.swing.JFrame {
             }
             if(rol.getIdRol()==2){
                 JOptionPane.showMessageDialog(null, "Ingreso de ususario");
-                List<Usuarios> usuarios = CUsuarios.findUsuariosEntities();
-                for(Usuarios i : usuarios){
-                    if(i.getUsuario().equals(usuario)){
-                       if(i.getPassword().equals(CampoPassword.getText())){
-                           usuario = i;
-                       } 
-                    }
-                }
+                cargarComboBoxTareas();
                 CampoUsuario.setText("");
                 CampoPassword.setText("");
                 PanelLogin.setVisible(false);
-                this.setSize(200, 150);
+                this.setSize(400, 150);
                 InterfazUsuario.setVisible(true);
             }
         }
@@ -737,6 +788,7 @@ public class GestorProyectos extends javax.swing.JFrame {
                     break;
                 }
             }
+            System.out.println((String)barraUsuarios.getSelectedItem());
             asignada.setFkUsu(encontrado);
             List<Tareas> tareas = CTareas.findTareasEntities();
             Tareas encontrado2 = null;
@@ -746,8 +798,21 @@ public class GestorProyectos extends javax.swing.JFrame {
                     break;
                 }
             }
+            List<Tareasdeproyecto> tareasProyectos = CTareasDeProyecto.findTareasdeproyectoEntities();
+            Proyectos encontrado3 = null;
+            for(Tareasdeproyecto i : tareasProyectos){
+                if(i.getFkidTarea2().equals(encontrado2)){
+                    encontrado3 = i.getFkidPro();
+                }
+            }
             asignada.setFkidTarea(encontrado2);
-                CAsignadas.create(asignada);
+            asignada.setTerminado(false);
+            asignada.setFkidPro(encontrado3);
+            CAsignadas.create(asignada);
+            JOptionPane.showMessageDialog(null, "Tarea asignada exitosamente");
+            AsignarTarea.setVisible(false);
+            InterfazAdministrador.setVisible(true);
+            this.setSize(600,150);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No fue posible asignar la tarea");
         }
@@ -766,6 +831,9 @@ public class GestorProyectos extends javax.swing.JFrame {
             CProyectos.create(proyecto);
             nombreProyecto.setText("");
             JOptionPane.showMessageDialog(null, "Proyecto creado exitosamente");
+            CrearProyecto.setVisible(false);
+            InterfazAdministrador.setVisible(true);
+            this.setSize(600,150);
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, "No se pudo crear el proyecto");
@@ -787,11 +855,6 @@ public class GestorProyectos extends javax.swing.JFrame {
         this.setSize(600,150);
     }//GEN-LAST:event_jButton13MouseReleased
 
-    private void jButton10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseReleased
-        AsignarTareaAProyecto.setVisible(true);
-        InterfazAdministrador.setVisible(false);
-    }//GEN-LAST:event_jButton10MouseReleased
-
     private void jButton12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseReleased
         try{
             Tareasdeproyecto tareaDeProyecto = new Tareasdeproyecto();
@@ -801,7 +864,7 @@ public class GestorProyectos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Tarea asignada a proyecto exitosamente");
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "No fue posible asignar la tarea al proyecto");
+            JOptionPane.showMessageDialog(null, "No fue posible asignar la tarea al proyecto" + e);
         }
         
     }//GEN-LAST:event_jButton12MouseReleased
@@ -815,9 +878,9 @@ public class GestorProyectos extends javax.swing.JFrame {
         InterfazAdministrador.setVisible(true);
     }//GEN-LAST:event_jButton2MouseReleased
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void TFCreaTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFCreaTareaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_TFCreaTareaActionPerformed
 
     private void jButton14MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MouseReleased
         CrearTarea.setVisible(false);
@@ -837,13 +900,13 @@ public class GestorProyectos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5MouseReleased
 
     private void jButton17MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MouseReleased
-        long tiempoTotal = 0;
+        int tiempoTotal = 0;
         List<Actividades> actividades = CActividades.findActividadesEntities();
         for(Actividades i : actividades){
             tiempoTotal += i.getTiempo();
         }
         String mensaje;
-        mensaje = "El tiempo invertido en el proyecto fue de : " + Long.toString(tiempoTotal) + " segundos";
+        mensaje = "El tiempo invertido en el proyecto fue de : " + Integer.toString(tiempoTotal) + " segundos";
         JOptionPane.showMessageDialog(null,mensaje);
     }//GEN-LAST:event_jButton17MouseReleased
 
@@ -878,6 +941,7 @@ public class GestorProyectos extends javax.swing.JFrame {
         InterfazUsuario.setVisible(false);
         PanelLogin.setVisible(true);
         this.setSize(500,100);
+        BarraTareas3.removeAllItems();
     }//GEN-LAST:event_jButton24MouseReleased
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
@@ -885,10 +949,18 @@ public class GestorProyectos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton25MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton25MouseReleased
-        tarea = (Tareas)BarraTareas3.getSelectedItem();
+        List<Tareas> tareas = CTareas.findTareasEntities();
+        String tareaT = (String)BarraTareas3.getSelectedItem();
+        Tareas encontrada = null;
+        for(Tareas i : tareas){
+            if(i.getDescripcion().equals(tareaT)){
+                tarea = i;
+            }
+        }
         InterfazUsuario.setVisible(false);
         RealizarTarea.setVisible(true);
         tiempoInicial = System.currentTimeMillis();
+        RBPendiente.setSelected(true);
     }//GEN-LAST:event_jButton25MouseReleased
 
     private void RBFinalizadaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RBFinalizadaMouseReleased
@@ -915,7 +987,11 @@ public class GestorProyectos extends javax.swing.JFrame {
         actividad.setFkUsu(usuario);
         actividad.setFkidPro2(proyecto);
         actividad.setFkidTarea(tarea);
-        actividad.setTiempo((int)tiempoFinal);
+        for(int i : suspensiones){
+            diferencia -= i;
+            suspensiones.remove(i);
+        }
+        actividad.setTiempo((int)diferencia/1000);
         CActividades.create(actividad);
         if(RBFinalizada.isSelected()){
             List<Asignadas> asignadas = CAsignadas.findAsignadasEntities();
@@ -935,11 +1011,41 @@ public class GestorProyectos extends javax.swing.JFrame {
         InterfazUsuario.setVisible(true);
     }//GEN-LAST:event_jButton26MouseReleased
 
+    private void jButton15MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseReleased
+        Tareas tarea = new Tareas();
+        tarea.setDescripcion(TFCreaTarea.getText());
+        List<Proyectos> proyectos = CProyectos.findProyectosEntities();
+        Proyectos encontrado = null;
+        for(Proyectos i : proyectos){
+            if(i.getNombreProyecto().equals(BarraProyectos2.getSelectedItem())){
+                encontrado = i;
+                break;
+            }
+        }
+        CTareas.create(tarea);
+        CrearTarea.setVisible(false);
+        InterfazAdministrador.setVisible(true);
+        Tareasdeproyecto tareaAsignada = new Tareasdeproyecto();
+        tareaAsignada.setFkidPro(encontrado);
+        tareaAsignada.setFkidTarea2(tarea);
+        CTareasDeProyecto.create(tareaAsignada);
+    }//GEN-LAST:event_jButton15MouseReleased
+
+    private void jButton21MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseReleased
+        TotalPorSuspension.setVisible(true);
+        PanelBlanco.setVisible(false);
+    }//GEN-LAST:event_jButton21MouseReleased
+
+    private void barraTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barraTareasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_barraTareasActionPerformed
+
     private Roles login(String usuario, String password){
         List<Usuarios> usuarios = CUsuarios.findUsuariosEntities();
         for(Usuarios i : usuarios){
             if(i.getUsuario().equals(usuario)){
                if(i.getPassword().equals(password)){
+                   this.usuario = i;
                    return i.getFkRol();
                } 
                return null;
@@ -958,12 +1064,26 @@ public class GestorProyectos extends javax.swing.JFrame {
             }
         }
         for(Tareas i : tareas){
-            barraTareas.addItem(i.getDescripcion());
-            BarraTareas2.addItem(i.getDescripcion());
-            BarraTareas3.addItem(i.getDescripcion());
+            if(i.getIdTarea()!=1){
+                barraTareas.addItem(i.getDescripcion());
+                BarraTareas2.addItem(i.getDescripcion());
+            }
         }
         for(Proyectos i : proyectos){
             BarraProyectos.addItem(i.getNombreProyecto());
+            BarraProyectos2.addItem(i.getNombreProyecto());
+        }
+    }
+    
+    public void cargarTablaTotalSuspension(){
+        List<Actividades> actividades = CActividades.findActividadesEntities();
+        int num = 0;
+        for(Actividades i : actividades){
+            if(i.getFkidTarea().getIdTarea()==1){
+                DefaultTableModel modelo = (DefaultTableModel) TablaTotalSuspension.getModel();
+                Object registro[] = {i.getFkUsu().getUsuario(),i.getFkidPro2().getNombreProyecto(),i.getTiempo()};
+                modelo.addRow(registro);
+            }
         }
     }
     
@@ -1006,6 +1126,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel AsignarTarea;
     private javax.swing.JPanel AsignarTareaAProyecto;
     private javax.swing.JComboBox<String> BarraProyectos;
+    private javax.swing.JComboBox<String> BarraProyectos2;
     private javax.swing.JComboBox<String> BarraTareas2;
     private javax.swing.JComboBox<String> BarraTareas3;
     private javax.swing.JTextField CampoPassword;
@@ -1015,10 +1136,12 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel CrearTarea;
     private javax.swing.JTextField DescripcionPorUsuarioTarea;
     private javax.swing.JPanel FormularioIngreso;
+    private javax.swing.JPanel InfoConsultas;
     private javax.swing.JPanel InterfazAdministrador;
     private javax.swing.JPanel InterfazUsuario;
     private javax.swing.JPanel Opciones;
     private javax.swing.JPanel Opciones2;
+    private javax.swing.JPanel PanelBlanco;
     private javax.swing.JPanel PanelCreacion;
     private javax.swing.JPanel PanelLogin;
     private javax.swing.JPanel PanelOpciones;
@@ -1027,12 +1150,14 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JRadioButton RBPendiente;
     private javax.swing.JPanel RealizarTarea;
     private javax.swing.JPanel Salir;
+    private javax.swing.JTextField TFCreaTarea;
+    private javax.swing.JTable TablaTotalSuspension;
+    private javax.swing.JPanel TotalPorSuspension;
     private javax.swing.JComboBox<String> barraTareas;
     private javax.swing.JComboBox<String> barraUsuarios;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
@@ -1050,6 +1175,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1062,6 +1188,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1075,7 +1202,6 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -1092,7 +1218,18 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombreProyecto;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarComboBoxTareas() {
+        List<Asignadas> asignadas = CAsignadas.findAsignadasEntities();
+        for(Asignadas i : asignadas){
+            System.out.println(i.getFkUsu().getUsuario());
+            System.out.println(usuario.getUsuario());
+            if(i.getFkUsu().getUsuario().equals(usuario.getUsuario())&&!i.getTerminado()){
+                BarraTareas3.addItem(i.getFkidTarea().getDescripcion());
+            }
+        }
+    }
 }
