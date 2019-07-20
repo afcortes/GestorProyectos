@@ -114,9 +114,10 @@ public class GestorProyectos extends javax.swing.JFrame {
         barraUsuarios = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         barraTareas = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
         CrearProyecto = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -364,13 +365,6 @@ public class GestorProyectos extends javax.swing.JFrame {
         });
         jPanel2.add(barraTareas);
 
-        PanelCreacion.add(jPanel2, java.awt.BorderLayout.PAGE_START);
-
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jPanel5.setLayout(new java.awt.BorderLayout());
-        jPanel3.add(jPanel5, java.awt.BorderLayout.PAGE_END);
-
         jButton9.setText("Confirmar Asignacion");
         jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -382,7 +376,27 @@ public class GestorProyectos extends javax.swing.JFrame {
                 jButton9ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton9, java.awt.BorderLayout.LINE_END);
+        jPanel2.add(jButton9);
+
+        PanelCreacion.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel3.add(jPanel5, java.awt.BorderLayout.PAGE_END);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 37, Short.MAX_VALUE)
+        );
+
+        jPanel3.add(jPanel10, java.awt.BorderLayout.LINE_START);
 
         PanelCreacion.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -922,7 +936,7 @@ public class GestorProyectos extends javax.swing.JFrame {
 
     private void jButton4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseReleased
         InterfazAdministrador.setVisible(false);
-        this.setSize(400, 150);
+        this.setSize(500, 150);
         AsignarTarea.setVisible(true);
         this.setTitle("Asignar tarea");
     }//GEN-LAST:event_jButton4MouseReleased
@@ -1568,6 +1582,7 @@ public class GestorProyectos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
